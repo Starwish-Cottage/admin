@@ -1,0 +1,1 @@
+export const WELCOME_SCREEN_DELAY = 2000;
