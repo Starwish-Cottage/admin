@@ -1,0 +1,19 @@
+.login {
+  @apply w-dvw h-dvh flex flex-col items-center justify-center;
+}
+
+.login-form {
+  @apply flex-col justify-center items-center;
+}
+
+.login-form__input {
+  @apply w-70 h-19;
+}
+
+.login-form__input > div {
+  @apply ring-0;
+}
+
+.login-form__button {
+  @apply w-30;
+}
