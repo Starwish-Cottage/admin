@@ -18,13 +18,17 @@ const router = createBrowserRouter([
         path: "/dashboard",
         Component: () => (
           <AuthGuard>
-            <Dashboard />,
+            <Dashboard />
           </AuthGuard>
         ),
       },
       {
         path: "/login",
-        Component: Login,
+        Component: () => (
+          <AuthGuard>
+            <Login />
+          </AuthGuard>
+        ),
       },
     ],
   },

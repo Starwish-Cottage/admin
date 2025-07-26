@@ -14,6 +14,7 @@ export default defineConfig({
       "@assets": resolve(__dirname, "src/assets"),
       "@models": resolve(__dirname, "src/models"),
       "@api": resolve(__dirname, "src/api"),
+      "@uitls": resolve(__dirname, "src/utils"),
     },
   },
 });

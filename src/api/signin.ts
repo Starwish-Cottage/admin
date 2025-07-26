@@ -11,8 +11,8 @@ export const signIn = async (data: LoginRequest) => {
     body: JSON.stringify(data),
   });
   const result = await response.json();
-  if (!response.ok) {
-    throw new Error(result.error);
+  if (!response.ok || !result.success) {
+    throw new Error(result.message);
   } else {
     return result as LoginResponse;
   }

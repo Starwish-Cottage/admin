@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
 import Form from "@components/From";
 import Input from "@components/Input";
@@ -7,20 +8,18 @@ import Button from "@components/Button";
 import { signIn } from "@/api/signin";
 
 import { type LoginRequest } from "@models/signin"; // Adjust the import path as necessary
+import { ProcessErrorMessage } from "@/utils/utils";
+
+const LOCAL_STORAGE_KEY = import.meta.env.VITE_LOCAL_STORAGE_KEY;
 
 const LoginForm = () => {
-  const [formError, setFormError] = React.useState<{
-    username: string;
-    password: string;
-  }>({
-    username: "",
-    password: "",
-  });
-
   const [submitLoading, setSubmitLoading] = React.useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = React.useState<string>("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    handleSetErrorMessage(""); // Reset error message on new submission
 
     const formData = Object.fromEntries(new FormData(e.currentTarget));
     const loginData: LoginRequest = {
@@ -31,33 +30,31 @@ const LoginForm = () => {
     try {
       setSubmitLoading(true);
       const result = await signIn(loginData);
-      console.log(result);
-    } catch (error) {
-      console.error("Login failed:", error);
-      setFormError({ username: "登录失败", password: "请检查用户名和密码" });
-    } finally {
+      const { full_name, session_token } = result;
+      localStorage.setItem(
+        LOCAL_STORAGE_KEY,
+        JSON.stringify({ full_name, session_token })
+      );
       setTimeout(() => {
         setSubmitLoading(false);
-      }, 1000);
+        navigate("/dashboard");
+      }, 2000);
+    } catch (error) {
+      setTimeout(() => {
+        setSubmitLoading(false);
+        if (error instanceof Error) {
+          handleSetErrorMessage(error.message);
+        } else {
+          handleSetErrorMessage("发生未知错误，请稍后再试");
+        }
+        console.error("Login failed:", error);
+      }, 3000);
     }
   };
 
-  const handleInputValidation = (
-    e: React.FocusEvent<HTMLInputElement>,
-    key: string,
-    field: string
-  ) => {
-    if (e.target.value.length === 0) {
-      setFormError((prev) => ({
-        ...prev,
-        [key]: `${field}不能为空`,
-      }));
-    } else {
-      setFormError((prev) => ({
-        ...prev,
-        [key]: "",
-      }));
-    }
+  const handleSetErrorMessage = (message: string) => {
+    const processedMessage = ProcessErrorMessage(message);
+    setErrorMessage(processedMessage);
   };
 
   return (
@@ -67,10 +64,8 @@ const LoginForm = () => {
           className="login-form__input"
           isRequired
           label="用户名"
-          onBlur={(e) => handleInputValidation(e, "username", "用户名")}
-          isInvalid={formError.username !== ""}
           labelPlacement="inside"
-          errorMessage={formError.username}
+          errorMessage="用户名不能为空"
           name="username"
           type="text"
         />
@@ -78,14 +73,13 @@ const LoginForm = () => {
           className="login-form__input"
           isRequired
           label="密码"
-          onBlur={(e) => handleInputValidation(e, "password", "密码")}
-          isInvalid={formError.password !== ""}
           labelPlacement="inside"
-          errorMessage={formError.password}
+          errorMessage="密码不能为空"
           name="password"
           type="password"
         />
       </div>
+      {errorMessage && <div className="text-danger text-sm">{errorMessage}</div>}
       <Button
         className="login-form__button"
         type="submit"

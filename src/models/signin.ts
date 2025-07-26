@@ -4,6 +4,8 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
+  success: boolean;
   full_name: string;
   session_token: string;
+  message: string;
 }
