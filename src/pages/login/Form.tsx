@@ -17,6 +17,7 @@ const LoginForm = () => {
   const [errorMessage, setErrorMessage] = React.useState<string>("");
   const navigate = useNavigate();
 
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSetErrorMessage(""); // Reset error message on new submission

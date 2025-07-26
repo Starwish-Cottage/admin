@@ -2,7 +2,7 @@ import { type LoginRequest, type LoginResponse } from "@/models/signin";
 
 const API_ENDPOINT = import.meta.env.VITE_ENDPOINT;
 
-export const signIn = async (data: LoginRequest) => {
+export const signIn = async (data: LoginRequest): Promise<LoginResponse> => {
   const response = await fetch(`${API_ENDPOINT}/admin/login`, {
     method: "POST",
     headers: {
