@@ -9,6 +9,7 @@ import { signIn } from "@/api/signin";
 
 import { type LoginRequest } from "@models/signin"; // Adjust the import path as necessary
 import { ProcessErrorMessage } from "@/utils/utils";
+import { LOGIN_DELAY } from "@/consts";
 
 const LOCAL_STORAGE_KEY = import.meta.env.VITE_LOCAL_STORAGE_KEY;
 
@@ -39,7 +40,7 @@ const LoginForm = () => {
       setTimeout(() => {
         setSubmitLoading(false);
         navigate("/dashboard");
-      }, 2000);
+      }, LOGIN_DELAY);
     } catch (error) {
       setTimeout(() => {
         setSubmitLoading(false);
@@ -49,7 +50,7 @@ const LoginForm = () => {
           handleSetErrorMessage("发生未知错误，请稍后再试");
         }
         console.error("Login failed:", error);
-      }, 3000);
+      }, LOGIN_DELAY);
     }
   };
 
