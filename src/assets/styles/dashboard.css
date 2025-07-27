@@ -5,3 +5,15 @@
 .dashboard-header {
   @apply w-full flex justify-between items-center h-10 bg-default-50;
 }
+
+.dashboard-header__item {
+  @apply px-2;
+}
+
+.dashboard-materials {
+  @apply flex flex-col items-center justify-center;
+}
+
+.dashboard-materials__header {
+  @apply grid grid-cols-3 items-center gap-4;
+}
