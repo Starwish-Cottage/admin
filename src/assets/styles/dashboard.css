@@ -1,0 +1,7 @@
+.dashboard {
+  @apply w-dvw h-dvh;
+}
+
+.dashboard-header {
+  @apply w-full flex justify-between items-center h-10 bg-default-50;
+}

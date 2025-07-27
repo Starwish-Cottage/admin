@@ -1,11 +1,13 @@
 import React from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { verifySession } from "@/api/verify_session";
 
 const STORAGE_KEY = import.meta.env.VITE_LOCAL_STORAGE_KEY;
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -18,18 +20,23 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
       }
       const { session_token } = JSON.parse(storageData);
       try {
+        // TODO: Implement session expiration notification
         await verifySession(session_token);
-        navigate("/dashboard", { replace: true });
+        if (location.pathname === "/login") {
+          navigate("/dashboard", { replace: true });
+        }
       } catch (error) {
         localStorage.removeItem(STORAGE_KEY);
         navigate("/login", { replace: true });
         console.error("Session verification failed:", error);
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 100);
       }
     };
     checkSession();
-  }, [navigate]);
+  }, [navigate, location]);
 
   return loading ? <></> : children;
 };

@@ -5,6 +5,8 @@ import AuthGuard from "@pages/AuthGuard";
 import Welcome from "@pages/welcome";
 import Login from "@pages/login";
 import Dashboard from "@pages/dashboard";
+import DashboardMaterials from "@pages/dashboard-materials";
+import DashboardOrders from "@pages/dashboard-orders";
 
 import "@assets/styles/index.css";
 import { HeroUIProvider } from "@heroui/react";
@@ -21,6 +23,10 @@ const router = createBrowserRouter([
             <Dashboard />
           </AuthGuard>
         ),
+        children: [
+          { path: "materials", Component: DashboardMaterials },
+          { path: "orders", Component: DashboardOrders },
+        ],
       },
       {
         path: "/login",
