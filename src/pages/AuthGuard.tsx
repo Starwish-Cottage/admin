@@ -8,7 +8,8 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [verified, setVerified] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const checkSession = async () => {
@@ -25,9 +26,11 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
         if (location.pathname === "/login") {
           navigate("/dashboard", { replace: true });
         }
+        setVerified(true);
       } catch (error) {
         localStorage.removeItem(STORAGE_KEY);
         navigate("/login", { replace: true });
+        if (verified) setVerified(false);
         console.error("Session verification failed:", error);
       } finally {
         setTimeout(() => {
@@ -35,8 +38,9 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
         }, 100);
       }
     };
-    checkSession();
-  }, [navigate, location]);
+    if (verified) return;
+    else checkSession();
+  }, [navigate, location, verified]);
 
   return loading ? <></> : children;
 };
