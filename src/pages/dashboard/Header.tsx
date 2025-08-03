@@ -1,11 +1,17 @@
+import React from "react";
 import { Button, Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate, type NavigateFunction } from "react-router";
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [logoutLoading, setLogoutLoading] = React.useState<boolean>(false);
   const isActivePath = (subpath: string) => {
     const currPath = location.pathname.split("/")[2];
     return currPath === subpath;
+  };
+  const handleSetLogoutLoading = (isLoading: boolean) => {
+    setLogoutLoading(isLoading);
   };
 
   return (
@@ -29,10 +35,29 @@ const Header = () => {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        <Button color="success">登出</Button>
+        <Button
+          color="success"
+          isLoading={logoutLoading}
+          onPress={() => logout(navigate, handleSetLogoutLoading)}
+        >
+          登出
+        </Button>
       </NavbarContent>
     </Navbar>
   );
+};
+
+// log out current user
+
+const logout = (
+  navigate: NavigateFunction,
+  handleSetLogoutLoading: (isLoading: boolean) => void
+) => {
+  handleSetLogoutLoading(true);
+  localStorage.removeItem(import.meta.env.VITE_LOCAL_STORAGE_KEY);
+  setTimeout(() => {
+    navigate("/login", { replace: true });
+  }, 1000);
 };
 
 export default Header;
