@@ -1,4 +1,5 @@
 import { Tabs, Tab, Button } from "@heroui/react";
+import UploadFile from "./UploadFile";
 
 type TabContent = {
   id: string;
@@ -36,6 +37,7 @@ const DashboardMaterials = () => {
           +
         </Button>
       </div>
+      <UploadFile />
     </div>
   );
 };

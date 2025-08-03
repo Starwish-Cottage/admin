@@ -6,7 +6,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [logoutLoading, setLogoutLoading] = React.useState<boolean>(false);
-  const isActivePath = (subpath: string) => {
+  const isActivePath = (subpath: string | undefined) => {
     const currPath = location.pathname.split("/")[2];
     return currPath === subpath;
   };
@@ -21,7 +21,7 @@ const Header = () => {
       </NavbarBrand>
       <NavbarContent justify="center">
         <NavbarItem
-          isActive={isActivePath("materials")}
+          isActive={isActivePath("materials") || isActivePath(undefined)}
           className="dashboard-header__item"
         >
           <Link to="/dashboard/materials">
