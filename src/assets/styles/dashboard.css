@@ -1,5 +1,5 @@
 .dashboard {
-  @apply w-dvw h-dvh;
+  @apply w-dvw h-dvh flex flex-col;
 }
 
 .dashboard-header {
@@ -11,7 +11,11 @@
 }
 
 .dashboard-materials {
-  @apply flex flex-col items-center justify-center;
+  @apply flex-1 flex flex-col items-center justify-center;
+}
+
+.dashboard-upload {
+  @apply flex-1 flex items-center justify-center w-full;
 }
 
 .dashboard-materials__header {

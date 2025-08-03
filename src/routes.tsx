@@ -24,6 +24,7 @@ const router = createBrowserRouter([
           </AuthGuard>
         ),
         children: [
+          { index: true, Component: DashboardMaterials },
           { path: "materials", Component: DashboardMaterials },
           { path: "orders", Component: DashboardOrders },
         ],
