@@ -15,7 +15,9 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
     const checkSession = async () => {
       const storageData = localStorage.getItem(STORAGE_KEY);
       if (!storageData) {
-        navigate("/login", { replace: true });
+        if (location.pathname !== "/login") {
+          navigate("/login", { replace: true });
+        }
         setLoading(false);
         return;
       }
