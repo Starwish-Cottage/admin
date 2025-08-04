@@ -15,9 +15,13 @@
 }
 
 .dashboard-upload {
-  @apply flex-1 flex items-center justify-center w-full;
+  @apply flex-1 flex items-center justify-center w-full text-secondary-200;
 }
 
 .dashboard-materials__header {
   @apply grid grid-cols-3 items-center gap-4;
+}
+
+.dashboard-upload__icon {
+  @apply w-30 h-30 stroke-1;
 }

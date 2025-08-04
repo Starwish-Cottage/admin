@@ -15,6 +15,7 @@ export default defineConfig({
       "@models": resolve(__dirname, "src/models"),
       "@api": resolve(__dirname, "src/api"),
       "@uitls": resolve(__dirname, "src/utils"),
+      "@hooks": resolve(__dirname, "src/hooks"),
     },
   },
 });
