@@ -9,7 +9,7 @@ export const verifySession = async (
   session_token: string
 ): Promise<VerifySessionResponse> => {
   const data = { session_token } as VerifySessionRequest;
-  const response = await fetch(`${API_ENDPOINT}/admin/verify-session`, {
+  const response = await fetch(`${API_ENDPOINT}/verify-session`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
