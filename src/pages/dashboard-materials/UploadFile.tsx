@@ -11,7 +11,7 @@ const UploadFile = () => {
         className="w-[60%] h-[60%] border-2 border-dashed rounded-2xl flex flex-col gap-4 items-center justify-center"
       >
         {getStatusIcon(status)}
-        <p className="text-lg">拖拽或点击上传图片</p>
+        <p className="text-lg pointer-events-none">拖拽或点击上传图片</p>
       </div>
     </div>
   );

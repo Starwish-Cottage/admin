@@ -33,6 +33,11 @@ const Header = () => {
             <p>订单管理</p>
           </Link>
         </NavbarItem>
+        <NavbarItem isActive={isActivePath("library")} className="dashboard-header__item">
+          <Link to="/dashboard/orders">
+            <p>图库</p>
+          </Link>
+        </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
         <Button

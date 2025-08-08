@@ -27,6 +27,7 @@ const router = createBrowserRouter([
           { index: true, Component: DashboardMaterials },
           { path: "materials", Component: DashboardMaterials },
           { path: "orders", Component: DashboardOrders },
+          { path: "library", Component: DashboardOrders },
         ],
       },
       {

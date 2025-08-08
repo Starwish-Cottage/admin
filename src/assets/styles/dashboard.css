@@ -23,5 +23,5 @@
 }
 
 .dashboard-upload__icon {
-  @apply w-30 h-30 stroke-1;
+  @apply w-30 h-30 stroke-1 pointer-events-none;
 }
