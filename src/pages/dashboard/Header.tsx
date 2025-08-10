@@ -34,7 +34,7 @@ const Header = () => {
           </Link>
         </NavbarItem>
         <NavbarItem isActive={isActivePath("library")} className="dashboard-header__item">
-          <Link to="/dashboard/orders">
+          <Link to="/dashboard/library">
             <p>图库</p>
           </Link>
         </NavbarItem>
