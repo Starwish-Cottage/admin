@@ -1,11 +1,13 @@
-import { Tabs, Tab } from "@heroui/react";
+import { Tabs, Tab, cn } from "@heroui/react";
 import UploadFile from "./UploadFile";
 import Alert from "@/components/Alert";
 import Button from "@components/Button";
 import React from "react";
 
+type TabType = "characters" | "decorations" | "background";
+
 type TabContent = {
-  id: string;
+  id: TabType;
   label: string;
   content: string;
 };
@@ -17,6 +19,9 @@ const DashboardMaterials = () => {
     { id: "background", label: "背景", content: "背景素材内容" },
   ];
 
+  const [uploadMode, setUploadMode] = React.useState<boolean>(true);
+  const [currTab, setCurrtab] = React.useState<TabType>("characters");
+
   const [errorMessage, setErrorMessage] = React.useState<string>("");
   const handleSetErrorMessage = (errorMessage: string) => {
     setErrorMessage(errorMessage);
@@ -27,6 +32,8 @@ const DashboardMaterials = () => {
       <div className="dashboard-materials__header relative">
         <Tabs
           items={tabs}
+          selectedKey={currTab}
+          onSelectionChange={(key) => setCurrtab(key as TabType)}
           radius="full"
           color="secondary"
           variant="bordered"
@@ -37,11 +44,17 @@ const DashboardMaterials = () => {
           }}
         </Tabs>
         <Button
-          variant="bordered"
+          variant={uploadMode ? "shadow" : "bordered"}
           color="success"
-          className="text-xl min-w-8 min-h-8 w-8 h-8"
+          className={cn(
+            "text-xl min-w-8 min-h-8 w-8 h-8",
+            uploadMode && "text-background rotate-45 transition-transform duration-200"
+          )}
           radius="full"
           size="sm"
+          onPress={() => {
+            setUploadMode((prev) => !prev);
+          }}
         >
           +
         </Button>
@@ -50,7 +63,7 @@ const DashboardMaterials = () => {
         {errorMessage.length !== 0 && (
           <Alert color="danger" variant="faded" title={errorMessage} />
         )}
-        <UploadFile onError={handleSetErrorMessage} />
+        {uploadMode && <UploadFile onError={handleSetErrorMessage} />}
       </div>
     </div>
   );

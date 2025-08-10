@@ -1,5 +1,5 @@
 import { useFileDragAndDrop, type DragAndDropStatus } from "@/hooks/useFileDragAndDrop";
-import { ImagePlus, CloudUpload } from "lucide-react";
+import { ImagePlus, CloudUpload, LoaderCircle } from "lucide-react";
 import { useEffect } from "react";
 
 type UploadFileProps = {
@@ -7,7 +7,9 @@ type UploadFileProps = {
 };
 
 const UploadFile = ({ onError }: UploadFileProps) => {
-  const { status, divRef, error } = useFileDragAndDrop();
+  const { status, divRef, inputRef, error, imageUrls } = useFileDragAndDrop();
+
+  console.log(imageUrls);
 
   useEffect(() => {
     onError(error);
@@ -19,26 +21,37 @@ const UploadFile = ({ onError }: UploadFileProps) => {
       className="w-[80%] h-[80%] max-h-140 max-w-300 border-2 border-dashed rounded-2xl flex flex-col gap-4 items-center justify-center"
     >
       {getStatusIcon(status)}
-      <div className="flex flex-col items-center">
-        <p className="text-lg pointer-events-none">拖拽或点击上传图片</p>
-        <p className="text-sm pointer-events-none">仅支持JPG和PNG文件类型</p>
+      <div className="flex flex-col items-center pointer-events-none">
+        {getText(status)}
+        <input ref={inputRef} type="file" className="hidden" />
       </div>
     </div>
   );
+};
+
+const getText = (status: DragAndDropStatus) => {
+  switch (status) {
+    case "uploading":
+      return <p className="text-lg">上传中...</p>;
+    default:
+      return (
+        <>
+          <p className="text-lg">拖拽或点击上传图片</p>
+          <p className="text-sm">仅支持JPG和PNG文件类型</p>
+        </>
+      );
+  }
 };
 
 const getStatusIcon = (status: DragAndDropStatus) => {
   switch (status) {
     case "drag-over":
       return <CloudUpload className="dashboard-upload__icon" />;
+    case "uploading":
+      return <LoaderCircle className="dashboard-upload__icon animate-spin" />;
     default:
       return <ImagePlus className="dashboard-upload__icon" />;
   }
 };
-
-// TODO: Implement file upload logic
-// 1. file validation and type checking
-// 2. interaction indication (drag over, drop, etc)
-// 3. implicit file upload (e.g., clicking on the dashed area to open file dialog)
 
 export default UploadFile;
