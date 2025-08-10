@@ -1,5 +1,8 @@
-import { Tabs, Tab, Button } from "@heroui/react";
+import { Tabs, Tab } from "@heroui/react";
 import UploadFile from "./UploadFile";
+import Alert from "@/components/Alert";
+import Button from "@components/Button";
+import React from "react";
 
 type TabContent = {
   id: string;
@@ -13,9 +16,15 @@ const DashboardMaterials = () => {
     { id: "decorations", label: "装饰", content: "装饰素材内容" },
     { id: "background", label: "背景", content: "背景素材内容" },
   ];
+
+  const [errorMessage, setErrorMessage] = React.useState<string>("");
+  const handleSetErrorMessage = (errorMessage: string) => {
+    setErrorMessage(errorMessage);
+  };
+
   return (
     <div className="dashboard-materials">
-      <div className="dashboard-materials__header">
+      <div className="dashboard-materials__header relative">
         <Tabs
           items={tabs}
           radius="full"
@@ -37,7 +46,12 @@ const DashboardMaterials = () => {
           +
         </Button>
       </div>
-      <UploadFile />
+      <div className="flex-1 flex items-center justify-center text-secondary-200 w-full relative">
+        {errorMessage.length !== 0 && (
+          <Alert color="danger" variant="faded" title={errorMessage} />
+        )}
+        <UploadFile onError={handleSetErrorMessage} />
+      </div>
     </div>
   );
 };
