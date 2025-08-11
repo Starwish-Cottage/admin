@@ -13,6 +13,7 @@ export const verifySession = async (
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${session_token}`,
     },
     body: JSON.stringify(data),
   });
