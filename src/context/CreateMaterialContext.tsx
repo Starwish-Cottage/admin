@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 type CreateStep = "idle" | "uploaded" | "processed" | "ready";
 type CreateMaterialStore = {
@@ -37,17 +37,17 @@ const CreateMaterialProvider = ({ children }: { children: React.ReactNode }) => 
   const [createMaterialStore, setCreateMaterialStore] =
     React.useState<CreateMaterialStore>(initialState);
 
-  const handleSetCurrStep = (currStep: CreateStep) => {
+  const handleSetCurrStep = useCallback((currStep: CreateStep) => {
     setCreateMaterialStore((prev) => ({ ...prev, currStep }));
-  };
+  }, []);
 
-  const handleSetUploadedImageUrls = (urls: string[]) => {
+  const handleSetUploadedImageUrls = useCallback((urls: string[]) => {
     setCreateMaterialStore((prev) => ({ ...prev, uploadedImageUrls: urls }));
-  };
+  }, []);
 
-  const handleSetProcessedImageUrls = (urls: string[]) => {
+  const handleSetProcessedImageUrls = useCallback((urls: string[]) => {
     setCreateMaterialStore((prev) => ({ ...prev, processedImageUrls: urls }));
-  };
+  }, []);
 
   const handleClearContext = () => {
     setCreateMaterialStore(initialState);
@@ -71,3 +71,4 @@ const CreateMaterialProvider = ({ children }: { children: React.ReactNode }) => 
 };
 
 export default CreateMaterialProvider;
+export { CreateMaterialContext };
