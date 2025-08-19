@@ -1,5 +1,5 @@
 import { Tabs, Tab, cn } from "@heroui/react";
-import UploadFile from "./UploadFile";
+import DashboardFileProcessing from "./DashboardFileProcessing";
 import Alert from "@/components/Alert";
 import Button from "@components/Button";
 import React from "react";
@@ -63,7 +63,7 @@ const DashboardMaterialsBody = () => {
         {errorMessage.length !== 0 && (
           <Alert color="danger" variant="faded" title={errorMessage} />
         )}
-        {uploadMode && <UploadFile onError={handleSetErrorMessage} />}
+        {uploadMode && <DashboardFileProcessing onError={handleSetErrorMessage} />}
       </div>
     </div>
   );

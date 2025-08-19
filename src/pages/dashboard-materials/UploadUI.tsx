@@ -1,16 +1,16 @@
-import { useFileDragAndDrop, type DragAndDropStatus } from "@/hooks/useFileDragAndDrop";
-import { ImagePlus, CloudUpload, LoaderCircle } from "lucide-react";
 import { useEffect } from "react";
+import { type DragAndDropStatus } from "@/hooks/useFileDragAndDrop";
+import { ImagePlus, CloudUpload, LoaderCircle } from "lucide-react";
 
-type UploadFileProps = {
+type UploadUIProps = {
+  status: DragAndDropStatus;
+  error: string;
+  inputRef: React.RefObject<HTMLInputElement | null>;
+  divRef: React.RefObject<HTMLDivElement | null>;
   onError: (errorMessage: string) => void;
 };
 
-const UploadFile = ({ onError }: UploadFileProps) => {
-  const { status, divRef, inputRef, error, imageUrls } = useFileDragAndDrop();
-
-  console.log(imageUrls);
-
+const UploadUI = ({ status, error, inputRef, divRef, onError }: UploadUIProps) => {
   useEffect(() => {
     onError(error);
   }, [onError, error]);
@@ -54,4 +54,4 @@ const getStatusIcon = (status: DragAndDropStatus) => {
   }
 };
 
-export default UploadFile;
+export default UploadUI;
