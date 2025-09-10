@@ -1,5 +1,7 @@
 import React, { useCallback } from "react";
 
+const END_POINT = import.meta.env.VITE_ENDPOINT;
+
 type CreateStep = "idle" | "uploaded" | "processed" | "ready";
 type CreateMaterialStore = {
   currStep: CreateStep;
@@ -42,7 +44,10 @@ const CreateMaterialProvider = ({ children }: { children: React.ReactNode }) => 
   }, []);
 
   const handleSetUploadedImageUrls = useCallback((urls: string[]) => {
-    setCreateMaterialStore((prev) => ({ ...prev, uploadedImageUrls: urls }));
+    setCreateMaterialStore((prev) => ({
+      ...prev,
+      uploadedImageUrls: urls.map((url) => END_POINT + url),
+    }));
   }, []);
 
   const handleSetProcessedImageUrls = useCallback((urls: string[]) => {
