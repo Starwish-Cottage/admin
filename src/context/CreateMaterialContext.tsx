@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 
 const END_POINT = import.meta.env.VITE_ENDPOINT;
 
-type CreateStep = "idle" | "uploaded" | "processed" | "ready";
+export type CreateStep = "idle" | "uploaded" | "processed" | "ready";
 type CreateMaterialStore = {
   currStep: CreateStep;
   uploadedImageUrls: string[];
