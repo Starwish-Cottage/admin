@@ -1,7 +1,8 @@
 import { useFileDragAndDrop } from "@/hooks/useFileDragAndDrop";
 import { useContext, useEffect } from "react";
-import { CreateMaterialContext } from "@/context/CreateMaterialContext";
+import { CreateMaterialContext, type CreateStep } from "@/context/CreateMaterialContext";
 import UploadUI from "./UploadUI";
+import DisplayImagesUI from "./DisplayImageUI";
 
 type DashboardFileProcessingProps = {
   onError: (errorMessage: string) => void;
@@ -9,7 +10,10 @@ type DashboardFileProcessingProps = {
 
 const DashboardFileProcessing = ({ onError }: DashboardFileProcessingProps) => {
   const { status, divRef, inputRef, error, imageUrls } = useFileDragAndDrop();
-  const { setCurrStep, setUploadImageUrls } = useContext(CreateMaterialContext);
+  const { currStep, setCurrStep, uploadedImageUrls, setUploadImageUrls } =
+    useContext(CreateMaterialContext);
+
+  console.log("uploaded images: ", uploadedImageUrls);
 
   useEffect(() => {
     if (status === "completed") {
@@ -18,15 +22,24 @@ const DashboardFileProcessing = ({ onError }: DashboardFileProcessingProps) => {
     }
   }, [status, setUploadImageUrls, setCurrStep, imageUrls]);
 
-  return (
-    <UploadUI
-      status={status}
-      error={error}
-      inputRef={inputRef}
-      divRef={divRef}
-      onError={onError}
-    />
-  );
+  const getStepUi = (currStep: CreateStep) => {
+    switch (currStep) {
+      case "uploaded":
+        return <DisplayImagesUI imageUrls={uploadedImageUrls} />;
+      default:
+        return (
+          <UploadUI
+            status={status}
+            error={error}
+            inputRef={inputRef}
+            divRef={divRef}
+            onError={onError}
+          />
+        );
+    }
+  };
+
+  return getStepUi(currStep);
 };
 
 export default DashboardFileProcessing;
